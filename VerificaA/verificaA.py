@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file, make_response, url_for, Response, request
+from flask import Flask, render_template, send_file, make_response, url_for, Response, request, redirect
 app = Flask(__name__)
 
 import io
@@ -28,6 +28,18 @@ stazioni = stazioni.drop(columns=['LAT._decimal', 'LONG._decimal','Location'])
 def home():
     
     return render_template('home.html')
+
+@app.route('/selezione', methods=['GET'])
+def selezione():
+    if request.args['scelta'] == 'es1':
+        return redirect(url_for("numero"))
+    if request.args['scelta'] == 'es2':
+        return redirect(url_for("input"))
+    if request.args['scelta'] == 'es3':
+        return redirect(url_for("dropdown"))
+    
+    return render_template('home.html')
+    
 
 
 @app.route('/numero', methods=['GET'])
@@ -59,13 +71,13 @@ def grafico():
 
 
 @app.route('/input', methods=['GET'])
-def homeinput():
+def input():
     
     return render_template('homeinput.html')
 
 
 @app.route('/rispinput', methods=['GET'])
-def input():
+def rispinput():
     value = request.args['value']
     risp = quartieri[quartieri.NIL.str.contains(value)]
     stazquar = stazioni[stazioni.within(risp.geometry.squeeze())]
