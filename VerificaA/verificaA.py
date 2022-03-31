@@ -33,11 +33,29 @@ def home():
 @app.route('/numero', methods=['GET'])
 def numero():
     #numero stazioni per ogni municipio
-    
+    global risultato
     risultato = stazioni.groupby('MUNICIPIO')['OPERATORE'].count().reset_index()
     
 
     return render_template('elenco.html' ,risultato= risultato.to_html())
+
+@app.route('/grafico', methods=['GET'])
+def grafico():
+    #costruzione grafico
+
+    fig, ax = plt.subplots(figsize = (6,4))
+
+    x = risultato.MUNICIPIO.astype(str)
+    y = risultato.OPERATORE
+
+    ax.bar(x, y, color = "#304C89")
+
+    plt.xticks(rotation = 30, size = 10)
+    #plt.ylabel("Expected Clean Sheets", size = 5)
+
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 
 @app.route('/input', methods=['GET'])
