@@ -104,3 +104,5 @@ def mappaquart():
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
 
+if __name__ == '__main__':
+  app.run(host='0.0.0.0', port=3245, debug=True)
