@@ -1,0 +1,8 @@
+<form action="/sceltastazioni" method = "GET">
+    <select name="stazione">
+        {% for stazione in stazioni%}
+        <option value="{{stazione}}" SELECTED>{{stazione}}</option>
+        {%endfor%}
+      </select>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
