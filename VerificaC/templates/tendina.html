@@ -1,0 +1,8 @@
+<form action="/linea" method = "GET">
+    <select name="linea">
+        {% for i in linee%}
+        <option value="{{i}}" >{{i}}</option>
+        {%endfor%}
+      </select>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
